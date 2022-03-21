@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+
+<!-- Fig. 16.5: SwitchContent.html -->
+<!-- Asynchronously display content without reloading the page. -->
+<html>
+<head>
+   <meta charset = "utf-8">
+   <style type = "text/css">
+      .box { border: 1px solid black; padding: 10px }
+
+      img{
+          height: 200px;
+          width: 400px;
+      }
+   </style>
+   <title>Switch Content Asynchronously</title>
+   <script>
+      var asyncRequest; // variable to hold XMLHttpRequest object
+
+      // set up event handlers
+      function registerListeners()
+      {
+         var img;
+         img = document.getElementById( "mumbaiIndians" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InfoFiles/mumbaiIndiansTeam.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "newZealandCricket" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InFoFiles/newZealandCricket.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "uMumba" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InFoFiles/uMumba.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "torontoMaple" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InFoFiles/torontoMapleLeaf.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "raptors" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InFoFiles/raptorsTeam.html" ); }, false );
+         img.addEventListener( "mouseout", clearContent, false ); 
+         img = document.getElementById( "manchesterUnited" );
+         img.addEventListener( "mouseover", 
+            function() { getContent( "./InFoFiles/manchesterUnitedFC.html" ); }, false ); 
+         img.addEventListener( "mouseout", clearContent, false ); 
+      } // end function registerListeners
+
+      // set up and send the asynchronous request.
+      function getContent( url )
+      {
+         // attempt to create XMLHttpRequest object and make the request
+         try
+         {
+            asyncRequest = new XMLHttpRequest(); // create request object
+
+            // register event handler
+            asyncRequest.addEventListener(
+               "readystatechange", stateChange, false); 
+            asyncRequest.open( "GET", url, true ); // prepare the request
+            asyncRequest.send( null ); // send the request
+         } // end try
+         catch ( exception )
+         {
+            alert( "Request failed." );
+         } // end catch
+      } // end function getContent
+      
+      // displays the response data on the page
+      function stateChange()
+      {
+         if ( asyncRequest.readyState == 4 && asyncRequest.status == 200 )
+         {
+            document.getElementById( "contentArea" ).innerHTML = 
+               asyncRequest.responseText; // places text in contentArea
+         } // end if
+      } // end function stateChange
+
+      // clear the content of the box
+      function clearContent()
+      {
+         document.getElementById( "contentArea" ).innerHTML = "";
+      } // end function clearContent
+
+      window.addEventListener( "load", registerListeners, false );
+   </script>
+</head>
+<body>
+   <h1>Mouse over a book for more information.</h1>
+   <img id = "mumbaiIndians" alt = "Mumbai Indians"
+      src = "./images/mumbaiIndiansCricketTeam.jpg">
+   <img id = "newZealandCricket" alt = "New Zealand Cricket"
+      src = "./images/newZealandCricketTeam.jpg">
+   <img id = "uMumba" alt = "U Mumba Team"
+      src = "./images/uMumbaPhoto.jpg.crdownload">
+   <img id = "torontoMaple" alt = "Team - Toronto Maple Leaf"
+      src = "./images/torontoMapleLeafImage.jpg">
+   <img id = "raptors" alt = "Team -Raptors 905" 
+      src = "./images/torontoRaptors.jpg">
+   <img id = "manchesterUnited" alt = "Manchester Team"
+      src = "./images/manchasterUnited.jpg">
+   <div class = "box" id = "contentArea"></div>
+</body>
+</html>
+
